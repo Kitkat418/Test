@@ -105,3 +105,91 @@ async def show_about(message: types.Message):
     ]
     keyboard = types.ReplyKeyboardMarkup(keyboard=button, resize_keyboard=True)
     await message.answer(f"{lang.about_text}", reply_markup=keyboard)
+
+
+menu = {
+        'Монокромные принтеры.': {
+            1166: {'price': 22000},
+            1260: {'price': 29000},
+            1270: {'price': 31000}
+        },
+        'Цветные принтеры.': {
+            1200: {'price': 22000},
+            4400: {'price': 29000},
+            1044: {'price': 31000}
+        },
+        'Струйные принтеры.': {
+            5500: {'price': 22000},
+            5166: {'price': 29000},
+            1866: {'price': 31000}
+        }
+    }
+
+async def choice_menu(message: types.Message):
+    user_id = message.from_user.id
+    lang = user_data[user_id]['language']
+    lang = importlib.import_module(f'lang.{lang}')
+    user_data[user_id]['state'] = 'none'
+    if message.text == lang.text_order:
+        button = [
+            [types.KeyboardButton(text=lang.text_delivery, request_location=True),
+             types.KeyboardButton(text=lang.text_self_pickup)],
+            [types.KeyboardButton(text=lang.text_back)]
+        ]
+        keyboard = types.ReplyKeyboardMarkup(keyboard=button, resize_keyboard=True)
+        await message.answer(f'{lang.text_choice}', reply_markup=keyboard)
+    elif message.text == lang.text_about:
+        user_id = message.from_user.id
+        lang = user_data[user_id]['language']
+        lang = importlib.import_module(f'lang.{lang}')
+        button = [
+            [types.KeyboardButton(text=lang.text_back)]
+        ]
+        keyboard = types.ReplyKeyboardMarkup(keyboard=button, resize_keyboard=True)
+        await message.answer(f"{lang.about_text}", reply_markup=keyboard)
+    elif message.text == lang.text_setting:
+        user_id = message.from_user.id
+        lang = user_data[user_id]['language']
+        lang = importlib.import_module(f'lang.{lang}')
+        button = [
+            [types.KeyboardButton(text=lang.text_back)]
+        ]
+        keyboard = types.ReplyKeyboardMarkup(keyboard=button, resize_keyboard=True)
+        await message.answer(f"{lang.about_setting}", reply_markup=keyboard)
+    elif message.text == lang.text_my_orders:
+        user_id = message.from_user.id
+        lang = user_data[user_id]['language']
+        lang = importlib.import_module(f'lang.{lang}')
+        button = [
+            [types.KeyboardButton(text=lang.text_back)]
+        ]
+        keyboard = types.ReplyKeyboardMarkup(keyboard=button, resize_keyboard=True)
+        await message.answer(f"{lang.about_order}", reply_markup=keyboard)
+    elif message.text == lang.text_feedback:
+        user_id = message.from_user.id
+        lang = user_data[user_id]['language']
+        lang = importlib.import_module(f'lang.{lang}')
+        button = [
+            [types.KeyboardButton(text=lang.text_back)]
+        ]
+        keyboard = types.ReplyKeyboardMarkup(keyboard=button, resize_keyboard=True)
+        await message.answer(f"{lang.about_feedback}", reply_markup=keyboard)
+
+    latitude = message.location.latitude
+    longitude = message.location.longitude
+    user_data[user_id]['location'] = {'x': latitude, 'y': longitude}
+    print(0, user_data)
+
+
+async def show_menu(message: types.Message):
+    user_id = message.from_user.id
+    user_data[user_id]['state'] = 'categories'
+    lang = user_data[user_id]['language']
+    lang = importlib.import_module(f'lang.{lang}')
+    if message.text == lang.text_back:
+        del user_data[user_id]['state']
+        await first_menu(message)
+    else:
+        user_data[user_id]['type_delivery'] = message.text
+        await show_category(message)
+    print(1, user_data)
