@@ -56,3 +56,52 @@ def select_lang(lang):
     else:
         lang = 'uz'
     return lang
+async def check_lang(message: types.Message):
+    user_id = message.from_user.id
+    lang = message.text
+    lang = select_lang(lang)
+    user_data[user_id]["language"] = lang
+    lang = importlib.import_module(f'lang.{lang}')
+    button = [
+        [types.KeyboardButton(text=lang.phone_button_text, request_contact=True)]
+    ]
+    keyboard = types.ReplyKeyboardMarkup(keyboard=button, resize_keyboard=True)
+    await message.answer(f"{lang.phone_text}", reply_markup=keyboard)
+
+
+async def check_sms(message: types.Message):
+    user_id = message.from_user.id
+    contact = message.contact
+
+    phone = contact.phone_number if contact else message.text
+    lang = user_data[user_id]['language']
+    lang = importlib.import_module(f'lang.{lang}')
+
+    user_data[user_id]['phone'] = phone
+    await first_menu(message)
+
+
+async def first_menu(message: types.Message):
+    user_id = message.from_user.id
+    lang = user_data[user_id]['language']
+    lang = importlib.import_module(f'lang.{lang}')
+    button = [
+        [types.KeyboardButton(text=lang.text_order)],
+        [types.KeyboardButton(text=lang.text_setting),
+         types.KeyboardButton(text=lang.text_about)],
+        [types.KeyboardButton(text=lang.text_my_orders),
+         types.KeyboardButton(text=lang.text_feedback)]
+    ]
+    keyboard = types.ReplyKeyboardMarkup(keyboard=button, resize_keyboard=True)
+    await message.answer(f'{lang.text_first_menu}', reply_markup=keyboard)
+
+
+async def show_about(message: types.Message):
+    user_id = message.from_user.id
+    lang = user_data[user_id]['language']
+    lang = importlib.import_module(f'lang.{lang}')
+    button = [
+        [types.KeyboardButton(text=lang.text_back)]
+    ]
+    keyboard = types.ReplyKeyboardMarkup(keyboard=button, resize_keyboard=True)
+    await message.answer(f"{lang.about_text}", reply_markup=keyboard)
