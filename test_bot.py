@@ -193,3 +193,42 @@ async def show_menu(message: types.Message):
         user_data[user_id]['type_delivery'] = message.text
         await show_category(message)
     print(1, user_data)
+
+async def show_menu(message: types.Message):
+    user_id = message.from_user.id
+    user_data[user_id]['state'] = 'categories'
+    lang = user_data[user_id]['language']
+    lang = importlib.import_module(f'lang.{lang}')
+    if message.text == lang.text_back:
+        del user_data[user_id]['state']
+        await first_menu(message)
+    else:
+        user_data[user_id]['type_delivery'] = message.text
+        await show_category(message)
+    print(1, user_data)
+
+async def show_menu(message: types.Message):
+    user_id = message.from_user.id
+    user_data[user_id]['state'] = 'categories'
+    lang = user_data[user_id]['language']
+    lang = importlib.import_module(f'lang.{lang}')
+    if message.text == lang.text_back:
+        del user_data[user_id]['state']
+        await first_menu(message)
+    else:
+        user_data[user_id]['type_delivery'] = message.text
+        await show_category(message)
+    print(1, user_data)
+
+async def show_menu(message: types.Message):
+    user_id = message.from_user.id
+    user_data[user_id]['state'] = 'categories'
+    lang = user_data[user_id]['language']
+    lang = importlib.import_module(f'lang.{lang}')
+    if message.text == lang.text_back:
+        del user_data[user_id]['state']
+        await first_menu(message)
+    else:
+        user_data[user_id]['type_delivery'] = message.text
+        await show_category(message)
+    print(1, user_data)
