@@ -5,11 +5,8 @@ import os
 # import requests
 
 print('hello')
-print('hello')
 
-print('hello')
 
-print('hello')
 
 
 Token = "8070766816:AAE-5OJFJjvs-dVQ1CsvYlbmZ1cLcAJd7QM"
