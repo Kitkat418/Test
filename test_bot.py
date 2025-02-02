@@ -4,6 +4,14 @@ import importlib
 import os
 # import requests
 
+print('hello')
+print('hello')
+
+print('hello')
+
+print('hello')
+
+
 Token = "8070766816:AAE-5OJFJjvs-dVQ1CsvYlbmZ1cLcAJd7QM"
 chenal_name = ""
 bot = Bot(token=Token)
@@ -11,7 +19,6 @@ dp = Dispatcher()
 user_data = {}
 project_dir = os.path.dirname(os.path.abspath(__file__))
 images_dir = os.path.join(project_dir, "images")
-
 
 @dp.message()
 async def message_handler(message: types.Message):
